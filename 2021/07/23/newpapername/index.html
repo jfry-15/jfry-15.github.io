@@ -156,11 +156,103 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <p>#第六周</p>
-<blockquote>
-<p>合作 </p>
+                <h1 id="日期问题"><a href="#日期问题" class="headerlink" title="日期问题"></a>日期问题</h1><blockquote>
+<p><strong>题目描述</strong></p>
 </blockquote>
-<p><strong>共赢</strong></p>
+<p>小明正在整理一批历史文献。这些历史文献中出现了很多日期。小明知道这些日期都在1960年1月1日至2059年12月31日。令小明头疼的是，这些日期采用的格式非常不统一，有采用年/月/日的，有采用月/日/年的，还有采用日/月/年的。更加麻烦的是，年份也都省略了前两位，使得文献上的一个日期，存在很多可能的日期与其对应。</p>
+<p>比如02/03/04，可能是2002年03月04日、2004年02月03日或2004年03月02日。</p>
+<p>给出一个文献上的日期，你能帮助小明判断有哪些可能的日期对其对应吗？</p>
+<blockquote>
+<p><strong>输入</strong></p>
+</blockquote>
+<p>一个日期，格式是”AA/BB/CC”。 (0 &lt;= A, B, C &lt;= 9)</p>
+<blockquote>
+<p><strong>输出</strong></p>
+</blockquote>
+<p>输出若干个不相同的日期，每个日期一行，格式是”yyyy-MM-dd”。多个日期按从早到晚排列。</p>
+<blockquote>
+<p><strong>样例输入</strong></p>
+</blockquote>
+<p>02/03/04</p>
+<blockquote>
+<p><strong>样例输出</strong></p>
+</blockquote>
+<p>2002-03-04</p>
+<p>2004-02-03</p>
+<p>2004-03-02</p>
+<blockquote>
+<p><strong>题解</strong></p>
+</blockquote>
+<h5 id="按时间从早到晚顺序列举所有情况（最多三种），并逐个判断是否为合理年月日"><a href="#按时间从早到晚顺序列举所有情况（最多三种），并逐个判断是否为合理年月日" class="headerlink" title="按时间从早到晚顺序列举所有情况（最多三种），并逐个判断是否为合理年月日"></a>按时间从早到晚顺序列举所有情况（最多三种），并逐个判断是否为合理年月日</h5><pre><code>#include &lt;stdio.h&gt;
+void f(int a,int b,int c)//判断是否为合理的年月日并输出 ，a,b,c分别对应年月日 
+&#123;
+    if(a&gt;=60)
+        a+=1900;
+    else
+        a+=2000;//转换为完整年份 
+    if(a%400==0||(a%4==0&amp;&amp;a%100!=0))//闰年判断 
+    &#123;
+        if(((b==1||b==3||b==5||b==7||b==8||b==10||b==12)&amp;&amp;c&lt;=31&amp;&amp;c!=0)||((b==4||b==6||b==9||b==11)&amp;&amp;c&lt;=30&amp;&amp;c!=0)||(b==2&amp;&amp;c&lt;=29&amp;&amp;c!=0))
+        &#123;
+            if(b&gt;=10)
+            &#123;
+                if(c&lt;10)
+                    printf(&quot;%d-%d-0%d\n&quot;,a,b,c);
+                else
+                    printf(&quot;%d-%d-%d\n&quot;,a,b,c);
+            &#125;
+            else
+            &#123;
+                if(c&lt;10)
+                    printf(&quot;%d-0%d-0%d\n&quot;,a,b,c);
+                else
+                    printf(&quot;%d-0%d-%d\n&quot;,a,b,c);
+            &#125;
+        &#125;
+    &#125;
+    else//平年 
+    &#123;
+        if(((b==1||b==3||b==5||b==7||b==8||b==10||b==12)&amp;&amp;c&lt;=31&amp;&amp;c!=0)||((b==4||b==6||b==9||b==11)&amp;&amp;c&lt;=30&amp;&amp;c!=0)||(b==2&amp;&amp;c&lt;=28&amp;&amp;c!=0))
+        &#123;
+            if(b&gt;=10)
+            &#123;
+                if(c&lt;10)
+                    printf(&quot;%d-%d-0%d\n&quot;,a,b,c);
+                else
+                    printf(&quot;%d-%d-%d\n&quot;,a,b,c);
+            &#125;
+            else
+            &#123;
+                if(c&lt;10)
+                    printf(&quot;%d-0%d-0%d\n&quot;,a,b,c);
+                else
+                    printf(&quot;%d-0%d-%d\n&quot;,a,b,c);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+int main()
+&#123;
+    int a,b,c;
+    scanf(&quot;%d/%d/%d&quot;,&amp;a,&amp;b,&amp;c);
+    if(a&lt;c) 
+        f(a,b,c); 
+    if(a&gt;b)
+    &#123;
+        f(c,b,a);
+        f(c,a,b);
+    &#125;
+    else if(a==b)
+        f(c,a,b);
+    else
+    &#123;
+        f(c,a,b);
+        f(c,b,a);
+    &#125;
+    if(a&gt;c)
+        f(a,b,c);
+&#125;
+</code></pre>
 
             </div>
 
